@@ -75,7 +75,7 @@ if uploaded_file is not None:
     # Run Detection
     # ==========================================
 
-    if st.button("🚀 Run Detection", use_container_width=True):
+    if st.button("Run Detection", use_container_width=True):
 
         with st.spinner("Running YOLO Detection..."):
 
@@ -126,7 +126,7 @@ if uploaded_file is not None:
         with c2:
 
             st.metric(
-                "🎯 Average Confidence",
+                "Average Confidence",
                 f"{statistics['avg_confidence']:.2f}"
             )
 
