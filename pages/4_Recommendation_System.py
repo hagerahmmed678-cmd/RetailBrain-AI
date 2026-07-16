@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 
 # ==========================================
 # Page Configuration
@@ -7,7 +6,7 @@ import pandas as pd
 
 st.set_page_config(
     page_title="Recommendation System",
-    page_icon="🤖",
+    page_icon="🧠",
     layout="wide"
 )
 
@@ -15,84 +14,98 @@ st.set_page_config(
 # Header
 # ==========================================
 
-st.title("🤖 Smart Recommendation System")
+st.title("Smart Retail Recommendation System")
 
 st.markdown("""
-Generate intelligent retail recommendations based on product detection results.
+AI-powered recommendations based on the object detection results.
 """)
 
 st.divider()
 
 # ==========================================
-# Recommendation Cards
+# Check Detection Results
 # ==========================================
 
-col1, col2, col3 = st.columns(3)
+if "statistics" not in st.session_state:
 
-with col1:
-    st.metric("📦 Low Stock Products", "--")
+    st.warning("⚠ Please run Product Detection first.")
 
-with col2:
-    st.metric("🛒 Restocking Priority", "--")
+    st.stop()
 
-with col3:
-    st.metric("💡 AI Suggestions", "--")
+statistics = st.session_state.statistics
+
+products = statistics["products"]
+
+confidence = statistics["avg_confidence"]
+
+# ==========================================
+# Shelf Status
+# ==========================================
+
+st.subheader("Shelf Status")
+
+if products < 80:
+
+    st.error("Shelf inventory is LOW.")
+
+    st.write("Recommendation: Restock the shelf immediately.")
+
+elif products < 150:
+
+    st.warning("Shelf inventory is MODERATE.")
+
+    st.write("Recommendation: Monitor inventory regularly.")
+
+else:
+
+    st.success("Shelf inventory is GOOD.")
+
+    st.write("Recommendation: No action required.")
 
 st.divider()
 
 # ==========================================
-# Recommendation Table
+# Confidence Status
 # ==========================================
 
-recommendations = pd.DataFrame({
+st.subheader("Detection Quality")
 
-    "Detected Product":[
-        "Product A",
-        "Product B",
-        "Product C"
-    ],
+if confidence < 0.60:
 
-    "Recommendation":[
-        "Restock Soon",
-        "Shelf Full",
-        "Increase Quantity"
-    ],
+    st.error("Low confidence detected.")
 
-    "Priority":[
-        "High",
-        "Low",
-        "Medium"
-    ]
+    st.write("Recommendation: Capture another image with better lighting.")
 
-})
+elif confidence < 0.85:
 
-st.subheader("AI Recommendations")
+    st.warning("Medium confidence.")
 
-st.dataframe(
-    recommendations,
-    use_container_width=True
-)
+    st.write("Recommendation: Review the prediction manually.")
+
+else:
+
+    st.success("High confidence.")
+
+    st.write("Recommendation: Detection results are reliable.")
 
 st.divider()
 
 # ==========================================
-# Future Features
+# Final Recommendation
 # ==========================================
 
-st.subheader("Upcoming AI Features")
+st.subheader("Final Decision")
 
-st.markdown("""
+if products < 80:
 
-✅ Product Recommendation
+    decision = "Restock Required"
 
-✅ Inventory Forecasting
+elif confidence < 0.60:
 
-✅ Sales Prediction
+    decision = "Retake Shelf Image"
 
-✅ Customer Purchase Suggestions
+else:
 
-✅ Shelf Optimization
+    decision = "Shelf Status is Healthy"
 
-""")
-
-st.success("Recommendation Engine Ready")
+st.info(f"AI Decision: {decision}")
