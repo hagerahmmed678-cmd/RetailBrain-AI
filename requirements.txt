@@ -8,3 +8,4 @@ plotly
 Pillow
 torch
 torchvision
+reportlab
