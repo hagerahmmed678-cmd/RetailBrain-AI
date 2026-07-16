@@ -1,6 +1,5 @@
 import streamlit as st
 from PIL import Image
-import cv2
 
 from utils.model import load_model
 from utils.prediction import run_prediction
@@ -188,21 +187,8 @@ if uploaded_file is not None:
 
             st.divider()
 
-            st.subheader(
-                "Download Detection Result"
-            )
-
-            _, buffer = cv2.imencode(
-                ".jpg",
-                detected_image
-            )
-
-            st.download_button(
-                label="Download Detection Image",
-                data=buffer.tobytes(),
-                file_name="RetailBrain_Detection.jpg",
-                mime="image/jpeg",
-                use_container_width=True
+            st.info(
+                "Download feature will be enabled in the next version."
             )
 
         else:
