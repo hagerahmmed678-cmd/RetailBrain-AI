@@ -1,6 +1,5 @@
-import joblib
 import os
-
+import joblib
 
 RULES_PATH = os.path.join(
     "models",
@@ -20,30 +19,28 @@ def load_rules():
 rules = load_rules()
 
 
-def get_recommendations(detected_products):
+def get_recommendations(products):
 
     if rules is None:
 
         return []
 
-    recommendations = []
+    recommendations = set()
 
-    for product in detected_products:
+    for product in products:
 
-        if product in rules:
+        rec = rules[
+            rules["antecedents"].apply(
+                lambda x: product in x
+            )
+        ]
 
-            recommendations.extend(rules[product])
+        for _, row in rec.iterrows():
 
-    recommendations = list(set(recommendations))
+            for item in row["consequents"]:
 
-    recommendations = [
+                recommendations.add(item)
 
-        item
+    recommendations = recommendations - set(products)
 
-        for item in recommendations
-
-        if item not in detected_products
-
-    ]
-
-    return recommendations
+    return list(recommendations)
