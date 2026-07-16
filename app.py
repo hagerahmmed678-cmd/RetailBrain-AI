@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image
+
 # ==========================================
 # Page Configuration
 # ==========================================
@@ -8,17 +8,6 @@ st.set_page_config(
     page_title="RetailBrainAI",
     page_icon="🛒",
     layout="wide"
-)
-
-# ==========================================
-# Load Logo
-# ==========================================
-
-logo = Image.open("assets/logo.png")
-
-st.image(
-    logo,
-    width=120
 )
 
 # ==========================================
