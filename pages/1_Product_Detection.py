@@ -80,7 +80,9 @@ if uploaded_file is not None:
 
         st.subheader("Detection Result")
 
-        st.info("Click 'Run Detection' to start.")
+        st.info(
+            "Click 'Run Detection' to start."
+        )
 
     st.divider()
 
@@ -88,40 +90,51 @@ if uploaded_file is not None:
     # Run Detection
     # ==========================================
 
-    if st.button("Run Detection", use_container_width=True):
+    if st.button(
+        "Run Detection",
+        use_container_width=True
+    ):
 
         if selected_model == "YOLOv8":
 
-            with st.spinner("Running YOLOv8 Detection..."):
+            with st.spinner(
+                "Running YOLOv8 Detection..."
+            ):
 
-             result, inference_time = run_prediction(
-    model,
-    image
-)
+                result, inference_time = run_prediction(
+                    model,
+                    image
+                )
 
-detected_image = draw_detection(result)
+                detected_image = draw_detection(
+                    result
+                )
 
-statistics = get_statistics(result)
+                statistics = get_statistics(
+                    result
+                )
 
-table = detection_table(result)
+                table = detection_table(
+                    result
+                )
 
-# Save statistics
-st.session_state.statistics = statistics
+                st.session_state.statistics = statistics
 
-# Save detected product names
-detected_products = []
+                detected_products = []
 
-for cls in result.boxes.cls.cpu().numpy():
+                for cls in result.boxes.cls.cpu().numpy():
 
-    detected_products.append(
-        model.names[int(cls)]
-    )
+                    detected_products.append(
+                        model.names[int(cls)]
+                    )
 
-st.session_state.detected_products = detected_products
+                st.session_state.detected_products = detected_products
 
             with col2:
 
-                st.subheader("Detection Result")
+                st.subheader(
+                    "Detection Result"
+                )
 
                 st.image(
                     detected_image,
@@ -130,7 +143,9 @@ st.session_state.detected_products = detected_products
 
             st.divider()
 
-            st.subheader("Detection Statistics")
+            st.subheader(
+                "Detection Statistics"
+            )
 
             c1, c2, c3 = st.columns(3)
 
@@ -155,11 +170,15 @@ st.session_state.detected_products = detected_products
                     f"{inference_time:.3f} sec"
                 )
 
-            st.success("YOLOv8 Detection Completed Successfully")
+            st.success(
+                "YOLOv8 Detection Completed Successfully"
+            )
 
             st.divider()
 
-            st.subheader("Detection Table")
+            st.subheader(
+                "Detection Table"
+            )
 
             st.dataframe(
                 table,
@@ -169,7 +188,9 @@ st.session_state.detected_products = detected_products
 
             st.divider()
 
-            st.subheader("Download Detection Result")
+            st.subheader(
+                "Download Detection Result"
+            )
 
             _, buffer = cv2.imencode(
                 ".jpg",
@@ -186,11 +207,15 @@ st.session_state.detected_products = detected_products
 
         else:
 
-            with st.spinner("Loading Faster R-CNN Model..."):
+            with st.spinner(
+                "Loading Faster R-CNN Model..."
+            ):
 
                 download_fasterrcnn()
 
-            st.success("Faster R-CNN model downloaded successfully.")
+            st.success(
+                "Faster R-CNN model downloaded successfully."
+            )
 
             st.info(
                 "Faster R-CNN inference will be enabled after integrating the prediction pipeline."
