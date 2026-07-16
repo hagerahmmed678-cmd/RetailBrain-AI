@@ -1,8 +1,49 @@
 import joblib
-from recommend import recommend
+import os
 
-rules = joblib.load("models/rules.pkl")
 
-def get_recommendations(products):
+RULES_PATH = os.path.join(
+    "models",
+    "rules.pkl"
+)
 
-    return recommend(products, rules)
+
+def load_rules():
+
+    if not os.path.exists(RULES_PATH):
+
+        return None
+
+    return joblib.load(RULES_PATH)
+
+
+rules = load_rules()
+
+
+def get_recommendations(detected_products):
+
+    if rules is None:
+
+        return []
+
+    recommendations = []
+
+    for product in detected_products:
+
+        if product in rules:
+
+            recommendations.extend(rules[product])
+
+    recommendations = list(set(recommendations))
+
+    recommendations = [
+
+        item
+
+        for item in recommendations
+
+        if item not in detected_products
+
+    ]
+
+    return recommendations
