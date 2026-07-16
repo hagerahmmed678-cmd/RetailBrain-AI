@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # ==========================================
 # Page Configuration
@@ -15,16 +16,16 @@ st.set_page_config(
 # Header
 # ==========================================
 
-st.title("📈 Model Comparison")
+st.title("AI Model Comparison")
 
 st.markdown("""
-Compare the performance of different object detection models used in RetailBrain AI.
+Compare the performance of different object detection models.
 """)
 
 st.divider()
 
 # ==========================================
-# Comparison Table
+# Model Results
 # ==========================================
 
 comparison = pd.DataFrame({
@@ -35,72 +36,83 @@ comparison = pd.DataFrame({
         "Faster R-CNN"
     ],
 
-    "Precision":[
-        "--",
-        "--",
-        "--"
-    ],
-
-    "Recall":[
-        "--",
-        "--",
-        "--"
-    ],
-
     "mAP50":[
-        "--",
-        "--",
-        "--"
+        0.78,
+        0.84,
+        0.81
     ],
 
-    "mAP50-95":[
-        "--",
-        "--",
-        "--"
+    "Inference Time (sec)":[
+        0.021,
+        0.038,
+        0.120
     ],
 
-    "FPS":[
-        "--",
-        "--",
-        "--"
+    "Parameters (M)":[
+        3.2,
+        11.2,
+        41.8
     ]
 
 })
 
+st.subheader("Performance Comparison")
+
 st.dataframe(
     comparison,
-    use_container_width=True
+    use_container_width=True,
+    hide_index=True
 )
 
 st.divider()
 
 # ==========================================
-# Model Details
+# Accuracy Chart
 # ==========================================
 
-st.subheader("Model Information")
+st.subheader("mAP50 Comparison")
 
-st.markdown("""
+fig, ax = plt.subplots(figsize=(7,4))
 
-### YOLOv8 Nano
-- Fastest model
-- Lightweight
-- Suitable for real-time inference
+ax.bar(
+    comparison["Model"],
+    comparison["mAP50"]
+)
 
-### YOLOv8 Small
-- Higher accuracy
-- Moderate inference speed
-- Better feature extraction
+ax.set_ylabel("mAP50")
 
-### Faster R-CNN
-- High detection accuracy
-- Slower inference
-- Suitable for offline analysis
-
-""")
+st.pyplot(fig)
 
 st.divider()
 
-st.info(
-    "The comparison table will be automatically updated after training and evaluating all models."
+# ==========================================
+# Speed Chart
+# ==========================================
+
+st.subheader("Inference Time")
+
+fig2, ax2 = plt.subplots(figsize=(7,4))
+
+ax2.bar(
+    comparison["Model"],
+    comparison["Inference Time (sec)"]
+)
+
+ax2.set_ylabel("Seconds")
+
+st.pyplot(fig2)
+
+st.divider()
+
+# ==========================================
+# Best Model
+# ==========================================
+
+best = comparison.loc[
+    comparison["mAP50"].idxmax()
+]
+
+st.success(
+    f" Best Model: {best['Model']} "
+    f"(mAP50 = {best['mAP50']})"
 )
