@@ -4,8 +4,7 @@ opencv-python-headless
 numpy
 pandas
 matplotlib
-Pillow
 plotly
+Pillow
 torch
 torchvision
-scikit-learn
