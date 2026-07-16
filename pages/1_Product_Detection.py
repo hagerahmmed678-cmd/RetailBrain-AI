@@ -3,7 +3,7 @@ from PIL import Image
 
 from utils.model import load_model
 from utils.prediction import run_prediction
-from utils.analytics import get_statistics
+from utils.analytics import get_statistics, detection_table
 from utils.visualization import draw_detection
 
 # ==========================================
