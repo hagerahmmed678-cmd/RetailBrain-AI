@@ -1,8 +1,8 @@
 import streamlit as st
 
-# --------------------------------------------------
+# ==========================================
 # Page Configuration
-# --------------------------------------------------
+# ==========================================
 
 st.set_page_config(
     page_title="Retail Analytics",
@@ -10,42 +10,55 @@ st.set_page_config(
     layout="wide"
 )
 
-# --------------------------------------------------
+# ==========================================
 # Header
-# --------------------------------------------------
+# ==========================================
 
-st.title("📊 Retail Analytics Dashboard")
+st.title("📊 Retail Analytics")
 
 st.markdown("""
-Analyze retail shelf performance using AI-generated insights.
+This dashboard provides AI-powered analytics for retail shelf monitoring.
+The displayed values will be updated automatically after running product detection.
 """)
 
 st.divider()
 
-# --------------------------------------------------
+# ==========================================
 # Metrics
-# --------------------------------------------------
+# ==========================================
 
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Products", "--")
+    st.metric("📦 Total Products", "--")
 
 with col2:
-    st.metric("Shelf Occupancy", "--")
+    st.metric("📈 Shelf Occupancy", "--")
 
 with col3:
-    st.metric("Average Confidence", "--")
+    st.metric("🎯 Average Confidence", "--")
 
 with col4:
-    st.metric("Inference Time", "--")
+    st.metric("⚡ Inference Time", "--")
 
 st.divider()
 
-# --------------------------------------------------
-# Charts Placeholder
-# --------------------------------------------------
+# ==========================================
+# Analytics Section
+# ==========================================
 
-st.subheader("Analytics")
+st.subheader("Retail Insights")
 
-st.info("Charts and retail analytics will appear here after running product detection.")
+st.info("Retail analytics charts will appear here after running the detection model.")
+
+st.divider()
+
+st.subheader("Future Analytics")
+
+st.markdown("""
+- Product Density
+- Shelf Utilization
+- Confidence Distribution
+- Detection Statistics
+- Inventory Insights
+""")
