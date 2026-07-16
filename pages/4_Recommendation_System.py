@@ -1,5 +1,5 @@
 import streamlit as st
-
+from utils.report import generate_report
 # ==========================================
 # Page Configuration
 # ==========================================
@@ -183,3 +183,39 @@ st.write(f"- Detection Quality: {quality}")
 st.write(f"- Priority Level: {priority}")
 
 st.write(f"- Final Decision: {decision}")
+st.divider()
+
+if st.button("Generate PDF Report"):
+
+    generate_report(
+
+        "Retail_Report.pdf",
+
+        products,
+
+        confidence,
+
+        inventory,
+
+        quality,
+
+        decision
+
+    )
+
+    with open(
+        "Retail_Report.pdf",
+        "rb"
+    ) as pdf:
+
+        st.download_button(
+
+            label="Download PDF",
+
+            data=pdf,
+
+            file_name="Retail_Report.pdf",
+
+            mime="application/pdf"
+
+        )
